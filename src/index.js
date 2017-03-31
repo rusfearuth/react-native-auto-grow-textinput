@@ -1,6 +1,4 @@
-/**
- * @flow
- */
+// @flow
 
 import React, { Component } from 'react';
 import {
@@ -14,13 +12,14 @@ type Props = {
   maxHeight?: number;
   style: View.propTypes.style;
   onResized?: () => void;
+  value: ?string;
 };
 
 type State = {
   limit: ?number;
-  text: string;
   height: number;
 };
+
 
 export default class AutoGrowTextInput extends React.Component {
   props: Props;
@@ -37,7 +36,6 @@ export default class AutoGrowTextInput extends React.Component {
 
     this.state = {
       limit,
-      text: '',
       height: 30,
     };
   }
@@ -46,7 +44,7 @@ export default class AutoGrowTextInput extends React.Component {
     const newProps = Object.assign({}, this.props);
     const externalStyle = this.props.style;
     const textInputStyle = {
-      height: this.state.height,
+      height: this.state.height
     };
 
     delete newProps['style'];
@@ -57,37 +55,24 @@ export default class AutoGrowTextInput extends React.Component {
         { ...newProps }
         multiline={ true }
         underlineColorAndroid='transparent'
-        onChange={ (event) => {
-          const { contentSize } = event.nativeEvent;
-          const allowResized = this.state.height !== contentSize.height;
-          const height = this._calcHeight(contentSize.height);
-
-          this.setState({
-            text: event.nativeEvent.text,
-            height,
-          });
-
-          if (allowResized && this.props.onResized) {
-            this.props.onResized();
-          }
-        }}
+        onContentSizeChange={ this._onContentSizeChange }
         style={[ externalStyle, textInputStyle ]}
       />
     );
   }
 
-  _calcHeight(actualHeight: number): number {
-    let result;
+  _onContentSizeChange = (event) => {
+    const { contentSize } = event.nativeEvent;
+    const height = _calcHeight(contentSize.height, this.state.limit);
 
-    if (this.state.limit) {
-      result = this.state.limit > actualHeight
-        ? actualHeight
-        : this.state.limit;
+    if (height === this.state.height) {
+      return;
     }
-    else {
-      result = Math.max(30, actualHeight);
-    }
-
-    return result;
+    this.setState({ height });
+    this.props.onResized && this.props.onResized();
   }
+
 };
+
+const _calcHeight = (actualHeight: number, limit:? number) =>
+  limit ? Math.min(limit, actualHeight):  Math.max(30, actualHeight);
