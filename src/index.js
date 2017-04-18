@@ -55,13 +55,13 @@ export default class AutoGrowTextInput extends React.Component {
         { ...newProps }
         multiline={ true }
         underlineColorAndroid='transparent'
-        onContentSizeChange={ this._onContentSizeChange }
+        onChange={ this._onChange }
         style={[ externalStyle, textInputStyle ]}
       />
     );
   }
 
-  _onContentSizeChange = (event) => {
+  _onChange = (event) => {
     const { contentSize } = event.nativeEvent;
     const height = _calcHeight(contentSize.height, this.state.limit);
 
