@@ -1,6 +1,6 @@
 {
   "name": "react-native-auto-grow-textinput",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "This component allows to create auto grow text input for both platforms (iOS and Android).",
   "main": "index.js",
   "repository": {

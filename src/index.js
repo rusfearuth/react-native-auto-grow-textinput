@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
+import _ from 'lodash';
 
 type Props = {
   maxHeight?: number;
@@ -41,27 +42,34 @@ export default class AutoGrowTextInput extends React.Component {
   }
 
   render() {
-    const newProps = Object.assign({}, this.props);
+    const newProps = _.omit({
+      ...this.props,
+      ...Platform.select({
+        ios: {
+          onContentSizeChange: this._onContentSizeChange,
+        },
+        android: {
+          onChange: this._onContentSizeChange
+        },
+      }),
+    }, [ 'style', 'maxLines' ]);
+
     const externalStyle = this.props.style;
     const textInputStyle = {
       height: this.state.height
     };
-
-    delete newProps['style'];
-    delete newProps['maxLines'];
 
     return (
       <TextInput
         { ...newProps }
         multiline={ true }
         underlineColorAndroid='transparent'
-        onChange={ this._onChange }
         style={[ externalStyle, textInputStyle ]}
       />
     );
   }
 
-  _onChange = (event) => {
+  _onContentSizeChange = (event) => {
     const { contentSize } = event.nativeEvent;
     const height = _calcHeight(contentSize.height, this.state.limit);
 
