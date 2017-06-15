@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "This component allows to create auto grow text input for both platforms (iOS and Android).",
   "main": "index.js",
-  "types: "src/index.d.ts",
+  "types": "src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/rusfearuth/react-native-auto-grow-textinput.git"
