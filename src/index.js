@@ -11,6 +11,7 @@ import _ from 'lodash';
 
 type Props = {
   maxHeight?: number;
+  minHeight?: number;
   style: View.propTypes.style;
   onResized?: () => void;
   value: ?string;
@@ -37,7 +38,7 @@ export default class AutoGrowTextInput extends React.Component {
 
     this.state = {
       limit,
-      height: 30,
+      height: this._minHeight()
     };
   }
 
@@ -63,7 +64,6 @@ export default class AutoGrowTextInput extends React.Component {
       <TextInput
         { ...newProps }
         multiline={ true }
-        underlineColorAndroid='transparent'
         style={[ externalStyle, textInputStyle ]}
       />
     );
@@ -71,7 +71,7 @@ export default class AutoGrowTextInput extends React.Component {
 
   _onContentSizeChange = (event) => {
     const { contentSize } = event.nativeEvent;
-    const height = _calcHeight(contentSize.height, this.state.limit);
+    const height = this._calcHeight(contentSize.height, this.state.limit);
 
     if (height === this.state.height) {
       return;
@@ -79,8 +79,9 @@ export default class AutoGrowTextInput extends React.Component {
     this.setState({ height });
     this.props.onResized && this.props.onResized();
   }
-
+  
+  _calcHeight = (actualHeight: number, limit:? number) =>
+    limit ? Math.min(limit, actualHeight):  Math.max(this.minHeight(), actualHeight);
+  
+  _minHeight = () => this.props.minHeight || 30
 };
-
-const _calcHeight = (actualHeight: number, limit:? number) =>
-  limit ? Math.min(limit, actualHeight):  Math.max(30, actualHeight);
