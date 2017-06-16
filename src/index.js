@@ -7,7 +7,10 @@ import {
   View,
   TextInput,
 } from 'react-native';
-const omit = require('lodash.omit');
+
+const omit = (obj, keys) => Object.keys(obj)
+  .filter((key) => keys.indexOf(key) < 0)
+  .reduce((newObj, key) => Object.assign(newObj, { [key]: obj[key] }), {})
 
 type Props = {
   maxHeight?: number;
