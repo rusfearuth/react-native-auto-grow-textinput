@@ -18,6 +18,7 @@ type Props = {
   style: View.propTypes.style;
   onResized?: () => void;
   value: ?string;
+  shrinkIfEmpty?: boolean;
 };
 
 type State = {
@@ -58,9 +59,13 @@ export default class AutoGrowTextInput extends React.Component {
       }),
     }, [ 'style', 'maxLines' ]);
 
+    const { value, shrinkIfEmpty } = newProps;
+
     const externalStyle = this.props.style;
     const textInputStyle = {
-      height: this.state.height
+      height: (shrinkIfEmpty && value === '')
+        ? this._minHeight()
+        : this.state.height
     };
 
     return (
