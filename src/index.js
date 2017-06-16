@@ -7,7 +7,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import _ from 'lodash';
+const omit = require('lodash.omit');
 
 type Props = {
   maxHeight?: number;
@@ -43,7 +43,7 @@ export default class AutoGrowTextInput extends React.Component {
   }
 
   render() {
-    const newProps = _.omit({
+    const newProps = omit({
       ...this.props,
       ...Platform.select({
         ios: {
