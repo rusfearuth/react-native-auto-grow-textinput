@@ -63,9 +63,7 @@ export default class AutoGrowTextInput extends React.Component {
 
     const externalStyle = this.props.style;
     const textInputStyle = {
-      height: (shrinkIfEmpty && value === '')
-        ? this._minHeight()
-        : this.state.height
+      height: (shrinkIfEmpty && !value) ? this._minHeight() : this.state.height
     };
 
     return (
