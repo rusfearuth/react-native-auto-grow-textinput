@@ -7,13 +7,18 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import _ from 'lodash';
+
+const omit = (obj, keys) => Object.keys(obj)
+  .filter((key) => keys.indexOf(key) < 0)
+  .reduce((newObj, key) => Object.assign(newObj, { [key]: obj[key] }), {})
 
 type Props = {
   maxHeight?: number;
+  minHeight?: number;
   style: View.propTypes.style;
   onResized?: () => void;
   value: ?string;
+  shrinkIfEmpty?: boolean;
 };
 
 type State = {
@@ -37,12 +42,12 @@ export default class AutoGrowTextInput extends React.Component {
 
     this.state = {
       limit,
-      height: 30,
+      height: this._minHeight()
     };
   }
 
   render() {
-    const newProps = _.omit({
+    const newProps = omit({
       ...this.props,
       ...Platform.select({
         ios: {
@@ -54,16 +59,17 @@ export default class AutoGrowTextInput extends React.Component {
       }),
     }, [ 'style', 'maxLines' ]);
 
+    const { value, shrinkIfEmpty } = newProps;
+
     const externalStyle = this.props.style;
     const textInputStyle = {
-      height: this.state.height
+      height: (shrinkIfEmpty || !value) ? this._minHeight() : this.state.height
     };
 
     return (
       <TextInput
         { ...newProps }
         multiline={ true }
-        underlineColorAndroid='transparent'
         style={[ externalStyle, textInputStyle ]}
       />
     );
@@ -71,7 +77,7 @@ export default class AutoGrowTextInput extends React.Component {
 
   _onContentSizeChange = (event) => {
     const { contentSize } = event.nativeEvent;
-    const height = _calcHeight(contentSize.height, this.state.limit);
+    const height = this._calcHeight(contentSize.height, this.state.limit);
 
     if (height === this.state.height) {
       return;
@@ -79,8 +85,12 @@ export default class AutoGrowTextInput extends React.Component {
     this.setState({ height });
     this.props.onResized && this.props.onResized();
   }
-
+  
+  _calcHeight(actualHeight: number, limit:? number) {
+    return limit
+      ? Math.min(limit, actualHeight)
+      : Math.max(this._minHeight(), actualHeight);
+  }
+  
+  _minHeight = () => this.props.minHeight || 30;
 };
-
-const _calcHeight = (actualHeight: number, limit:? number) =>
-  limit ? Math.min(limit, actualHeight):  Math.max(30, actualHeight);
