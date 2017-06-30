@@ -63,7 +63,7 @@ export default class AutoGrowTextInput extends React.Component {
 
     const externalStyle = this.props.style;
     const textInputStyle = {
-      height: (shrinkIfEmpty && !value) ? this._minHeight() : this.state.height
+      height: (shrinkIfEmpty || !value) ? this._minHeight() : this.state.height
     };
 
     return (
@@ -92,7 +92,5 @@ export default class AutoGrowTextInput extends React.Component {
       : Math.max(this._minHeight(), actualHeight);
   }
   
-  _minHeight() {
-    return this.props.minHeight || 30;
-  }
+  _minHeight = () => this.props.minHeight || 30;
 };
