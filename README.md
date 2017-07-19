@@ -4,10 +4,19 @@
 
 This component allows to create auto grow text input for both platforms (iOS and Android).
 
+
+## Attantion
+
+If you use ReactNative <= 0.43.X in your poject, you should install version 1.1.2 of ReactNative Auto Grow TextInput.
+
+```bash
+$ yarn add react-native-auto-grow-textinput@1.1.2
+```
+
 ## Getting started
 First of all, you need to install `react-native-auto-grow-textinput` to your project.
 
-```
+```bash
 $ yarn add react-native-auto-grow-textinput
 ```
 

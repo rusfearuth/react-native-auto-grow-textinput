@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Platform,
   View,
   TextInput,
 } from 'react-native';
@@ -49,14 +48,7 @@ export default class AutoGrowTextInput extends React.Component {
   render() {
     const newProps = omit({
       ...this.props,
-      ...Platform.select({
-        ios: {
-          onContentSizeChange: this._onContentSizeChange,
-        },
-        android: {
-          onChange: this._onContentSizeChange
-        },
-      }),
+      onContentSizeChange: this._onContentSizeChange,
     }, [ 'style', 'maxLines' ]);
 
     const { value, shrinkIfEmpty } = newProps;
