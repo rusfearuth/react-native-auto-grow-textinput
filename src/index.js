@@ -11,7 +11,7 @@ const omit = (obj, keys) => Object.keys(obj)
   .filter((key) => keys.indexOf(key) < 0)
   .reduce((newObj, key) => Object.assign(newObj, { [key]: obj[key] }), {})
 
-type _Style = {[key: string]: Object}
+type _Style = {[key: string]: Object} | number;
 export type Style = _Style | Array<_Style>;
 
 type Props = {
