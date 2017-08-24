@@ -11,10 +11,13 @@ const omit = (obj, keys) => Object.keys(obj)
   .filter((key) => keys.indexOf(key) < 0)
   .reduce((newObj, key) => Object.assign(newObj, { [key]: obj[key] }), {})
 
+type _Style = {[key: string]: Object}
+export type Style = _Style | Array<_Style>;
+
 type Props = {
   maxHeight?: number;
   minHeight?: number;
-  style: View.propTypes.style;
+  style?: Style;
   onResized?: () => void;
   value: ?string;
   shrinkIfEmpty?: boolean;
