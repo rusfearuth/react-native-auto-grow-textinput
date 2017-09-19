@@ -80,12 +80,12 @@ export default class AutoGrowTextInput extends React.Component {
     this.setState({ height });
     this.props.onResized && this.props.onResized();
   }
-  
+
   _calcHeight(actualHeight: number, limit:? number) {
     return limit
       ? Math.min(limit, actualHeight)
       : Math.max(this._minHeight(), actualHeight);
   }
-  
+
   _minHeight = () => this.props.minHeight || 30;
 };
