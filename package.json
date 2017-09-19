@@ -1,13 +1,12 @@
 {
-  "name": "@jeremistadler/react-native-auto-grow-textinput",
-  "version": "1.3.0",
+  "name": "react-native-auto-grow-textinput",
+  "version": "1.2.0",
   "description": "This component allows to create auto grow text input for both platforms (iOS and Android).",
   "main": "index.js",
   "types": "src/index.d.ts",
-  "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/jeremistadler/react-native-auto-grow-textinput.git"
+    "url": "https://github.com/rusfearuth/react-native-auto-grow-textinput.git"
   },
   "author": {
     "name": "Alexander Ustinov",
@@ -15,7 +14,7 @@
     "url": "https://github.com/rusfearuth"
   },
   "license": "Apache 2.0",
-  "homepage": "https://github.com/jeremistadler/react-native-auto-grow-textinput",
+  "homepage": "https://github.com/rusfearuth/react-native-auto-grow-textinput",
   "keywords": [
     "textinput",
     "autogrowing",
